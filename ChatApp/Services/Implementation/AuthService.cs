@@ -26,14 +26,33 @@ namespace ChatApp.Services.Implementation
 
         public async Task<string> RegisterAsync(string username, string email, string password)
         {
-            var user = new UserModel { UserName = email, Email = email, DisplayName = username };
+            var user = new UserModel { UserName = email, Email = email, DisplayName = username, EmailConfirmed = false };
 
             var result = await _userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
                 return string.Join(", ", result.Errors.Select(e => e.Description));
 
-            return GenerateJwtToken(user);
+            // Генеруємо токен підтвердження Email
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = HttpUtility.UrlEncode(token);
+
+            var confirmLink = $"https://yourfrontend.com/confirm-email?email={email}&token={encodedToken}";
+
+            await _emailService.SendEmailAsync(email, "Confirm Your Email",
+                $"<p>Click <a href='{confirmLink}'>here</a> to confirm your email.</p>");
+
+            return "Registration successful. Please check your email to confirm your account.";
+        }
+
+        public async Task<string> ConfirmEmailAsync(string email, string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return "User not found";
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return result.Succeeded ? "Email confirmed successfully" : "Invalid token";
         }
 
         public async Task<string> LoginAsync(string email, string password)

@@ -20,10 +20,17 @@ namespace ChatApp.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var result = await _authService.RegisterAsync(model.Username, model.Email, model.Password);
+            return Ok(new { message = result });
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery] string token)
+        {
+            var result = await _authService.ConfirmEmailAsync(email, token);
             if (result.Contains("Invalid"))
                 return BadRequest(result);
 
-            return Ok(new { token = result });
+            return Ok(new { message = result });
         }
 
         [HttpPost("login")]
