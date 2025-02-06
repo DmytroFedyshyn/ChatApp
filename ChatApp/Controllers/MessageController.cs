@@ -67,7 +67,7 @@ namespace ChatApp.Controllers
         {
             var added = await _messageService.AddReactionAsync(id, reaction);
             if (added == null)
-                return NotFound("Повідомлення не знайдено");
+                return NotFound("Message not found");
             return Ok(added);
         }
 
