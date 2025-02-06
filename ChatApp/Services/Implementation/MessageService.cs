@@ -1,8 +1,9 @@
 ﻿using ChatApp.Data;
 using ChatApp.Models;
+using ChatApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatApp.Services
+namespace ChatApp.Services.Implementation
 {
     public class MessageService : IMessageService
     {

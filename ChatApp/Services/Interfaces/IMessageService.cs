@@ -1,6 +1,6 @@
 ﻿using ChatApp.Models;
 
-namespace ChatApp.Services
+namespace ChatApp.Services.Interfaces
 {
     public interface IMessageService
     {

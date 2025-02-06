@@ -1,5 +1,5 @@
 ﻿using ChatApp.Models;
-using ChatApp.Services;
+using ChatApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.Controllers
