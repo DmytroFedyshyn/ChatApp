@@ -14,21 +14,21 @@ namespace ChatApp.Services.Implementation
             _context = context;
         }
 
-        public async Task<IEnumerable<Message>> GetAllMessagesAsync()
+        public async Task<IEnumerable<MessageModel>> GetAllMessagesAsync()
         {
             return await _context.Messages
                 .Include(m => m.Reactions)
                 .ToListAsync();
         }
 
-        public async Task<Message> GetMessageByIdAsync(int id)
+        public async Task<MessageModel> GetMessageByIdAsync(int id)
         {
             return await _context.Messages
                 .Include(m => m.Reactions)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<Message> CreateMessageAsync(Message message)
+        public async Task<MessageModel> CreateMessageAsync(MessageModel message)
         {
             message.SentAt = DateTime.UtcNow;
             _context.Messages.Add(message);
@@ -36,7 +36,7 @@ namespace ChatApp.Services.Implementation
             return message;
         }
 
-        public async Task<Message> UpdateMessageAsync(int id, Message updatedMessage)
+        public async Task<MessageModel> UpdateMessageAsync(int id, MessageModel updatedMessage)
         {
             var message = await _context.Messages.FindAsync(id);
             if (message == null)
@@ -58,7 +58,7 @@ namespace ChatApp.Services.Implementation
             return true;
         }
 
-        public async Task<Reaction> AddReactionAsync(int messageId, Reaction reaction)
+        public async Task<ReactionModel> AddReactionAsync(int messageId, ReactionModel reaction)
         {
             var message = await _context.Messages.FindAsync(messageId);
             if (message == null)

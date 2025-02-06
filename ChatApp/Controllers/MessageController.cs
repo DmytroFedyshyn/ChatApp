@@ -35,7 +35,7 @@ namespace ChatApp.Controllers
 
         // POST: api/message
         [HttpPost]
-        public async Task<IActionResult> CreateMessage([FromBody] Message message)
+        public async Task<IActionResult> CreateMessage([FromBody] MessageModel message)
         {
             var created = await _messageService.CreateMessageAsync(message);
             return CreatedAtAction(nameof(GetMessage), new { id = created.Id }, created);
@@ -43,7 +43,7 @@ namespace ChatApp.Controllers
 
         // PUT: api/message/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMessage(int id, [FromBody] Message message)
+        public async Task<IActionResult> UpdateMessage(int id, [FromBody] MessageModel message)
         {
             var updated = await _messageService.UpdateMessageAsync(id, message);
             if (updated == null)
@@ -63,7 +63,7 @@ namespace ChatApp.Controllers
 
         // POST: api/message/{id}/reaction
         [HttpPost("{id}/reaction")]
-        public async Task<IActionResult> AddReaction(int id, [FromBody] Reaction reaction)
+        public async Task<IActionResult> AddReaction(int id, [FromBody] ReactionModel reaction)
         {
             var added = await _messageService.AddReactionAsync(id, reaction);
             if (added == null)

@@ -9,7 +9,8 @@ namespace ChatApp.Data
         {
         }
 
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<MessageModel> Messages { get; set; }
+        public DbSet<ReactionModel> Reactions { get; set; }
+        public DbSet<UserModel> Users { get; set; }
     }
 }
